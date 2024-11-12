@@ -13,7 +13,7 @@ to generate a list of top picks based on IMDb ratings.
 def download_kaggle_dataset():
     # Ask the user for their Kaggle username and dataset ID
     kaggle_username = input("Enter your Kaggle username: ")
-    dataset_id = input("Enter the dataset ID (e.g., 'bricevergnou/spotify-recommendation'): ")
+    dataset_id = input("Enter the dataset ID (e.g., 'octopusteam/full-hbo-max-dataset'): ")
 
     # Set up Kaggle API client
     api = KaggleApi()
