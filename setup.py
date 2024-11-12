@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import tkinter as tk
 from tkinter import messagebox
 import subprocess
@@ -64,12 +64,34 @@ def create_kaggle_json():
         messagebox.showinfo("Success", "Kaggle API credentials saved to kaggle.json")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to save kaggle.json: {str(e)}")
+    
+    # Set the permissions to 600 for the kaggle.json file
+    try:
+        os.chmod(kaggle_json_path, 0o600)  # Set read and write permissions for owner only
+        messagebox.showinfo("Success", "File permissions set to 600 for kaggle.json")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to set file permissions: {str(e)}")
+
+# Function to handle window close
+def on_close():
+    # Set the permissions to 600 for the kaggle.json file when the window is closed
+    home_dir = os.path.expanduser("~")
+    kaggle_json_path = os.path.join(home_dir, '.kaggle', 'kaggle.json')
+    if os.path.exists(kaggle_json_path):
+        try:
+            os.chmod(kaggle_json_path, 0o600)  # Set read and write permissions for owner only
+            print("File permissions set to 600 for kaggle.json")
+        except Exception as e:
+            print(f"Failed to set file permissions: {str(e)}")
+    
+    root.destroy()  # Close the window
 
 # Creating the main window
 def create_gui():
     global username_entry, token_entry
     
     # Create the Tkinter window
+    global root
     root = tk.Tk()
     root.title("Library Installer and Kaggle Setup")
     
@@ -93,6 +115,9 @@ def create_gui():
     
     # Set the window size
     root.geometry("350x300")
+    
+    # Handle window close event to set permissions and exit
+    root.protocol("WM_DELETE_WINDOW", on_close)
     
     # Start the GUI
     root.mainloop()
