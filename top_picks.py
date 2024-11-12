@@ -2,22 +2,27 @@
 import os
 import difflib
 import pandas as pd
-
+"""
+This program takes the kaggle dataset for hbo max and executes a .txt script so it can be read by another program.
+Part of the assignment was to generate a dataset that can be executed and read in order to be modified. This is the middle man of the process delivering the text file needed using python and creating tables of the data from the HBO Max dataset so it can be used in other learning experiences geared twoards machine learning in the future.
+"""
 # Load the HBO Max dataset
-data = pd.read_csv('data.csv')
+data = pd.read_csv('data.csv') # this is the file downloaded from the Kaggle Dataset.
 print("Initial Columns:", data.columns)
 
 # Normalize column names
+# This Normalizes the Column names so everything is understood in lowercased text.
 data.columns = data.columns.str.strip().str.lower()
 print("Normalized Columns:", data.columns)
 
 # Find the closest matches for the expected column names
-imdb_rating_col = difflib.get_close_matches('imdb_rating', data.columns, n=1, cutoff=0.6)
-genres_col = difflib.get_close_matches('genre', data.columns, n=1, cutoff=0.6)
-release_year_col = difflib.get_close_matches('year', data.columns, n=1, cutoff=0.6)
-available_countries_col = difflib.get_close_matches('available_regions', data.columns, n=1, cutoff=0.6)
+# The column is mainly searching for the IMDB ratings to organized the data in order to be graphed based on popularity.
+imdb_rating_col = difflib.get_close_matches('imdb_rating', data.columns, n=1, cutoff=0.6) # the IMBD ratings
+genres_col = difflib.get_close_matches('genre', data.columns, n=1, cutoff=0.6) # Genres of the HBO movies
+release_year_col = difflib.get_close_matches('year', data.columns, n=1, cutoff=0.6) # The year of release
+available_countries_col = difflib.get_close_matches('available_regions', data.columns, n=1, cutoff=0.6) # where the movies are available to watch given the country the person is viewing the movie in. Someone could test this with a VPN!
 
-# Use the found column names or default to known names if not found
+# The closest matches in the data given there are possible inconsistencies in what was formatted and retrieved.
 imdb_rating_col = imdb_rating_col[0] if imdb_rating_col else 'imdbaveragerating'
 genres_col = genres_col[0] if genres_col else 'genres'
 release_year_col = release_year_col[0] if release_year_col else 'releaseyear'
