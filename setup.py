@@ -54,7 +54,7 @@ def create_kaggle_json():
     # Create the JSON content
     kaggle_config = {
         "username": username,
-        "token": token
+        "key": token
     }
     
     # Write the configuration to the kaggle.json file
